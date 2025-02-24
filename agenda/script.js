@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const today = new Date();
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
-    const notes = JSON.parse(localStorage.getItem("notes")) || {};
+    const themeToggle = document.getElementById("theme-toggle");
 
     function generateCalendar(year, month) {
         calendar.innerHTML = "";
@@ -14,13 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
             dayElement.classList.add("day");
             dayElement.textContent = day;
 
-            // Verifica se há anotação para esse dia e adiciona a classe 'has-note'
+            // Verifica se há anotações para o dia
+            const notes = JSON.parse(localStorage.getItem("notes")) || {};
             const noteKey = `${year}-${month}-${day}`;
             if (notes[noteKey]) {
                 dayElement.classList.add("has-note");
             }
-             // teste 
-            // Redireciona para a página de anotações ao clicar em um dia
+
+            // Redireciona para a página de anotações ao clicar
             dayElement.addEventListener("click", function () {
                 window.location.href = `note.html?year=${year}&month=${month}&day=${day}`;
             });
@@ -30,4 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     generateCalendar(currentYear, currentMonth);
+
+    // Alternância de tema claro/escuro
+    function toggleTheme() {
+        document.body.classList.toggle("dark-theme");
+        localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
+    }
+
+    // Carregar tema salvo
+    if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-theme");
+    }
+
+    themeToggle.addEventListener("click", toggleTheme);
 });
