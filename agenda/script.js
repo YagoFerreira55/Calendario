@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (notes[noteKey]) {
                 dayElement.classList.add("has-note");
             }
-
+             // teste 
             // Redireciona para a página de anotações ao clicar em um dia
             dayElement.addEventListener("click", function () {
                 window.location.href = `note.html?year=${year}&month=${month}&day=${day}`;
