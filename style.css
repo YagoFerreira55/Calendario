@@ -7,6 +7,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    transition: background 0.3s, color 0.3s;
 }
 
 .container {
@@ -15,7 +16,9 @@ body {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(211, 42, 42, 0.1);
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
 }
 
 #calendar {
@@ -30,8 +33,100 @@ body {
     cursor: pointer;
     background: #f9f9f9;
     border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
 }
 
 .day:hover {
-    background-color: #f0f0f0;
+    background-color: #e2dbdb;
 }
+
+/* Estilo para os dias com anotações */
+.day.has-note {
+    background-color: #ffcc00;
+    color: white;
+    font-weight: bold;
+}
+
+/* Botão para alternar o tema */
+#theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+}
+
+#theme-toggle:hover {
+    background-color: #0056b3;
+}
+
+/* Modo escuro */
+.dark-theme {
+    background-color: #222;
+    color: #ddd;
+}
+
+.dark-theme .container {
+    background: #333;
+    color: #ddd;
+}
+
+.dark-theme .day {
+    background: #444;
+    color: #ddd;
+    border: 1px solid #666;
+}
+
+.dark-theme .day:hover {
+    background-color: #555;
+}
+
+.dark-theme .day.has-note {
+    background-color: #ffa500;
+}
+
+.dark-theme #theme-toggle {
+    background-color: #ffa500;
+}
+
+.dark-theme #theme-toggle:hover {
+    background-color: #eca012;
+}
+/* Centraliza a caixa de anotações e aumenta o tamanho */
+#note-input {  /* Linha X */
+    width: 100%;  /* Linha X+1 */
+    height: 250px; /* Linha X+2 - Aumenta o tamanho da área de texto */
+    resize: none;  /* Linha X+3 - Impede o redimensionamento */
+    border: 1px solid #ccc; /* Linha X+4 */
+    border-radius: 5px; /* Linha X+5 */
+    padding: 10px; /* Linha X+6 */
+    font-size: 16px; /* Linha X+7 */
+    text-align: center; /* Linha X+8 - Centraliza o texto dentro do campo */
+    display: block; /* Linha X+9 */
+    margin: 0 auto; /* Linha X+10 - Centraliza a caixa no container */
+    box-sizing: border-box; /* Linha X+11 */
+}
+
+/* Alinha os títulos acima da área de texto */
+h2 {  /* Linha Y */
+    text-align: center; /* Linha Y+1 */
+}
+
+/* Ajusta os botões para ficarem centralizados */
+.container button { /* Linha Z */
+    display: inline-block; /* Linha Z+1 */
+    margin: 10px; /* Linha Z+2 */
+    padding: 10px 20px; /* Linha Z+3 */
+    font-size: 16px; /* Linha Z+4 */
+    cursor: pointer; /* Linha Z+5 */
+}
+.dark-theme #note-input{
+    background: #333;   
+}
+
