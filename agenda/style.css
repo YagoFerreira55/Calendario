@@ -16,6 +16,7 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 #calendar {
@@ -30,22 +31,59 @@ body {
     cursor: pointer;
     background: #f9f9f9;
     border-radius: 5px;
+    text-align: center;
 }
 
 .day:hover {
     background-color: #f0f0f0;
 }
 
-.remove-btn {
-    background-color: #f44336; /* Cor vermelha para remover */
+/* Destaque para os dias com anotações */
+.day.has-note {
+    background-color: #ffcc00;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-    cursor: pointer;
+    font-weight: bold;
 }
 
-.remove-btn:hover {
-    background-color: #d32f2f;
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+textarea {
+    display: block;
+    width: 80%;
+    margin: 10px auto;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+    text-align: center;
+}
+
+#note-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#note-input {
+    text-align: center;
+}
+
+/* Estilo para a mensagem de confirmação */
+#confirmation-message {
+    margin-top: 15px;
+    color: green;
+    font-weight: bold;
+    display: none; /* Inicialmente invisível */
+}
+
+/* Classe para esconder a mensagem */
+.hidden {
+    display: none;
 }
