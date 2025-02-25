@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const calendar = document.getElementById("calendar");
+    
+    const weekDaysContainer = document.getElementById("weekDays");
     const themeToggle = document.getElementById("theme-toggle");
 
     // Feriados no mês de Março de 2025 (Brasil)
@@ -11,14 +13,32 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     const today = new Date();
-    const currentMonth = 2; // Março (zero-indexed, então 2 representa março)
+    const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
+    const notes = JSON.parse(localStorage.getItem("notes")) || {};
+    const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
+
+    function createWeekDaysHeader() {
+        weekDaysContainer.innerHTML = "";
+        weekDays.forEach(day => {
+            const dayElement = document.createElement("div");
+            dayElement.classList.add("week-day");
+            dayElement.textContent = day;
+            weekDaysContainer.appendChild(dayElement);
+        });
+    }
 
     // Função para gerar o calendário
     function generateCalendar(year, month) {
         calendar.innerHTML = "";  // Limpar o conteúdo do calendário
 
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate(); // Quantos dias tem no mês
+
+        for (let i = 0; i < firstDayOfMonth; i++) {
+            const emptyDay = document.createElement("div");
+            calendar.appendChild(emptyDay);
+        }
 
         for (let day = 1; day <= daysInMonth; day++) {
             const dayElement = document.createElement("div");
@@ -37,7 +57,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Verifica se há anotações para o dia
             const notes = JSON.parse(localStorage.getItem("notes")) || {};
-            const noteKey = `${year}-${month + 1}-${day}`;
+
+            // retirado +1 no month
+            const noteKey = `${year}-${month}-${day}`;
             const hasNote = notes[noteKey] ? true : false;
 
             // Aplica as marcações de final de semana, feriado ou anotação
@@ -66,7 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
             calendar.appendChild(dayElement);
         }
     }
-
+    
+    createWeekDaysHeader();
     generateCalendar(currentYear, currentMonth);
 
     // Alternância de tema (modo claro/escuro)
