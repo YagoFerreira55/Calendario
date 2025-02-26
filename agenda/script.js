@@ -95,25 +95,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Alternância de tema (modo claro/escuro)
     function toggleTheme() {
         document.body.classList.toggle("dark-theme");
-        localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
-
+        const isDark = document.body.classList.contains("dark-theme");
+        
+        // Salvar tema no localStorage
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+    
+        // Alterar ícone do botão
+        themeToggle.textContent = isDark ? "☀️ Alternar Tema" : "🌙 Alternar Tema";
+    
         // Alterar cor do título "Agenda Mensal" para branco no modo escuro
-        const title = document.querySelector('h1');
-        if (document.body.classList.contains("dark-theme")) {
-            title.style.color = 'white';
-        } else {
-            title.style.color = '#333'; // Cor padrão do título no tema claro
-        }
-
-        // Regerar o calendário após alternar o tema para aplicar as classes de marcação corretas
+        document.querySelector('h1').style.color = isDark ? 'white' : '#333';
+    
+        // Regerar o calendário para aplicar as classes corretamente
         generateCalendar(currentYear, currentMonth);
     }
-
+    
     // Definir o tema ao carregar a página
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-theme");
-        document.querySelector('h1').style.color = 'white'; // Definir título branco ao carregar o tema escuro
+        document.querySelector('h1').style.color = 'white';
+        themeToggle.textContent = "☀️ Alternar Tema";
+    } else {
+        themeToggle.textContent = "🌙 Alternar Tema";
     }
-
+    
     themeToggle.addEventListener("click", toggleTheme);
-});
+    
+});    
