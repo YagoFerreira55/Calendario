@@ -7,12 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">  
-        <h2 id="note-title">Anotação para o dia</h2>
-        <textarea id="note-input" placeholder="Digite sua anotação..."></textarea>
-        <button id="save-note">Salvar</button>
-        <button onclick="goBack()">Voltar</button>
-        <div id="confirmation-message" class="hidden">Anotação salva com sucesso!</div>
+    <div class="container">
+        <header>
+            <h1>Anotação do Dia</h1>
+        </header>
+        <main>
+            <section class="note-section">
+                <h2 id="note-title">Anotação para o dia</h2>
+                <textarea id="note-input" placeholder="Digite sua anotação..."></textarea>
+                <button id="save-note">Salvar</button>
+                <div id="confirmation-message" class="hidden">Anotação salva com sucesso!</div>
+            </section>
+        </main>
+        <footer>
+            <p class="hidden">&copy; 2023 Anotação do Dia</p>
+        </footer>
     </div>
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -22,24 +31,29 @@
         const noteKey = `${year}-${month}-${day}`;
         const notes = JSON.parse(localStorage.getItem("notes")) || {};
 
+        // Verifica o tema escolhido na página inicial
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-theme");
+        } else {
+            document.body.classList.remove("dark-theme");
+        }
+
         document.getElementById("note-title").innerText = `Anotação para ${day}/${parseInt(month) + 1}/${year}`;
         document.getElementById("note-input").value = notes[noteKey] || "";
 
         document.getElementById("save-note").addEventListener("click", function () {
-            notes[noteKey] = document.getElementById("note-input").value;
-            localStorage.setItem("notes", JSON.stringify(notes));
+    notes[noteKey] = document.getElementById("note-input").value;
+    localStorage.setItem("notes", JSON.stringify(notes));
 
-            const confirmationMessage = document.getElementById("confirmation-message");
-            confirmationMessage.classList.remove("hidden");
-            
-            setTimeout(function() {
-                confirmationMessage.classList.add("hidden");
-            }, 3000);
-        });
+    const confirmationMessage = document.getElementById("confirmation-message");
+    confirmationMessage.classList.add("visible");  // Adiciona a classe para tornar visível
 
-        function goBack() {
-            window.location.href = "index.html";
-        }
+    setTimeout(function() {
+        confirmationMessage.classList.remove("visible");  // Remove a classe após 2 segundos
+        history.back(); // Volta para a página anterior após 2 segundos
+    }, 2000);
+});
+
     </script>
 </body>
 </html>

@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function toggleTheme() {
         document.body.classList.toggle("dark-theme");
         localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
-
+    
         // Alterar cor do título "Agenda Mensal" para branco no modo escuro
         const title = document.querySelector('h1');
         if (document.body.classList.contains("dark-theme")) {
@@ -104,9 +104,12 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             title.style.color = '#333'; // Cor padrão do título no tema claro
         }
-
+    
         // Regerar o calendário após alternar o tema para aplicar as classes de marcação corretas
         generateCalendar(currentYear, currentMonth);
+    
+        // Adicionar essa linha para aplicar o tema no arquivo note.html
+        document.body.classList.toggle("dark-theme", localStorage.getItem("theme") === "dark");
     }
 
     // Definir o tema ao carregar a página

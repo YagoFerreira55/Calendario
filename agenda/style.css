@@ -1,38 +1,123 @@
-/* LAYOUT BÁSICO */
+/* ========================== */
+/* 🌟 ESTILO GERAL */
+/* ========================== */
+
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #e5f3f8;
+    background-color: #f9f9f9;
     color: #333;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Container principal */
+/* ========================== */
+/* 📌 LAYOUT PRINCIPAL */
+/* ========================== */
+
 .container {
-    margin: auto;
-    background-color: #fff;
+    max-width: 800px;
+    margin: 40px auto;
     padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     text-align: center;
 }
 
-/* Título */
-h1 {
-    margin-bottom: 20px;
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    margin: 0;
     font-size: 2rem;
-    color: #333;
     transition: color 0.3s ease;
 }
 
-/* Dias (grade) */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* ========================== */
+/* ✏️ SEÇÃO DE ANOTAÇÕES */
+/* ========================== */
+
+.note-section {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.note-section h2 {
+    margin-top: 0;
+}
+
+#note-input {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+#save-note {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#save-note:hover {
+    background-color: #444;
+}
+
+/* Mensagem de confirmação */
+#confirmation-message {
+    background-color: #dff0d8;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: none; /* Esconde por padrão */
+}
+
+#confirmation-message.visible {
+    display: block; /* Torna visível quando adicionada a classe 'visible' */
+}
+
+/* ========================== */
+/* 📅 ESTILO DO CALENDÁRIO */
+/* ========================== */
+
 #weekDays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -55,30 +140,32 @@ h1 {
     text-align: center;
     cursor: pointer;
     position: relative;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Quando o dia é final de semana */
-.day.weekend {
-    background-color: #e3f2fd;
-}
-
-/* Quando o dia é feriado */
-.day.holiday {
-    background-color: #c8e6c9;
-}
-
-/* Quando o dia tem anotação */
-.day.has-note {
-    background-color: #fff9c4;
-}
-
-/* Efeito hover para os dias */
 .day:hover {
     transform: scale(1.1);
 }
 
-/* Divisores de riscos */
+/* Finais de semana */
+.day.weekend {
+    background-color: #e3f2fd;
+}
+
+/* Feriados */
+.day.holiday {
+    background-color: #c8e6c9;
+}
+
+/* Dias com anotações */
+.day.has-note {
+    background-color: #fff9c4;
+}
+
+/* ========================== */
+/* 🎨 INDICADORES (RISCOS) */
+/* ========================== */
+
 .day::after {
     content: '';
     position: absolute;
@@ -89,7 +176,7 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-/* Riscos */
+/* Cores dos riscos */
 .day.has-note::after {
     background-color: #ffcc00; /* Amarelo para anotações */
 }
@@ -102,12 +189,82 @@ h1 {
     background-color: #2196f3; /* Azul para finais de semana */
 }
 
-/* Classe para quando o dia tem mais de uma marcação (riscos múltiplos) */
+/* Risco múltiplo (feriado + final de semana + anotação) */
 .day.three-risks::after {
-    background: linear-gradient(to right, #ffcc00 33%, #4caf50 33%, #4caf50 66%, #2196f3 66%, #2196f3 100%);
+    background: linear-gradient(to right, 
+        #ffcc00 33%, 
+        #4caf50 33%, #4caf50 66%, 
+        #2196f3 66%, #2196f3 100%);
 }
 
-/* Botão para alternar tema */
+/* ========================== */
+/* 🌙 TEMA ESCURO */
+/* ========================== */
+
+.dark-theme {
+    background-color: #121212;
+    color: #fff;
+}
+
+.dark-theme .container,
+.dark-theme .note-section {
+    background-color: #333;
+}
+
+.dark-theme #note-input {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-theme #save-note {
+    background-color: #555;
+    color: #fff;
+}
+
+.dark-theme #confirmation-message {
+    background-color: #666;
+    color: #fff;
+}
+
+/* Ajuste do título no tema escuro */
+.dark-theme header h1 {
+    color: white;
+}
+
+/* Estilo dos dias no tema escuro */
+.dark-theme .day {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-theme .day::after {
+    background-color: #fff;
+}
+
+/* Riscos no tema escuro */
+.dark-theme .day.has-note::after {
+    background-color: #ffcc00;
+}
+
+.dark-theme .day.holiday::after {
+    background-color: #4caf50;
+}
+
+.dark-theme .day.weekend::after {
+    background-color: #2196f3;
+}
+
+.dark-theme .day.three-risks::after {
+    background: linear-gradient(to right, 
+        #ffcc00 33%, 
+        #4caf50 33%, #4caf50 66%, 
+        #2196f3 66%, #2196f3 100%);
+}
+
+/* ========================== */
+/* 🔘 BOTÃO DE TROCAR TEMA */
+/* ========================== */
+
 #theme-toggle {
     padding: 10px 20px;
     font-size: 14px;
@@ -119,50 +276,13 @@ h1 {
     position: absolute;
     top: 20px;
     right: 20px;
+    transition: background-color 0.3s;
 }
 
 #theme-toggle:hover {
     background-color: #0056b3;
 }
 
-/* Tema escuro */
-.dark-theme {
-    background-color: #121212;
-    color: #fff;
-}
-
-.dark-theme .container {
-    background-color: #333;
-}
-
-.dark-theme .day {
-    background-color: #444;
-    color: #fff;
-}
-
-.dark-theme .day::after {
-    background-color: #fff;
-}
-
-/* Riscos de feriado, final de semana e anotação no tema escuro */
-.dark-theme .day.has-note::after {
-    background-color: #ffcc00; /* Amarelo para anotações */
-}
-
-.dark-theme .day.holiday::after {
-    background-color: #4caf50; /* Verde para feriados */
-}
-
-.dark-theme .day.weekend::after {
-    background-color: #2196f3; /* Azul para finais de semana */
-}
-
-/* Ajuste da visibilidade para os múltiplos riscos */
-.dark-theme .day.three-risks::after {
-    background: linear-gradient(to right, #ffcc00 33%, #4caf50 33%, #4caf50 66%, #2196f3 66%, #2196f3 100%);
-}
-
-/* Botão para alternar tema no modo escuro */
 .dark-theme #theme-toggle {
     background-color: #ffa500;
 }
