@@ -1,23 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
     const calendar = document.getElementById("calendar");
-    
     const weekDaysContainer = document.getElementById("weekDays");
     const themeToggle = document.getElementById("theme-toggle");
 
-    // Feriados no mês de Março de 2025 (Brasil)
-    const holidays = [
-        { date: "2025-03-03", name: "Carnaval" },
-        { date: "2025-03-08", name: "Dia Internacional da Mulher" },
-        { date: "2025-03-14", name: "Sexta-feira Santa" },
-        { date: "2025-03-19", name: "Dia de São José" },
-    ];
-
     const today = new Date();
-    const currentMonth = today.getMonth();
+    const currentMonth = 10;
     const currentYear = today.getFullYear();
     const notes = JSON.parse(localStorage.getItem("notes")) || {};
     const weekDays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
 
+    // conecta o API
+    async function fetchHolidays() {
+        try {
+            const response = await fetch(`https://brasilapi.com.br/api/feriados/v1/${currentYear}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error("Erro ao carregar feriados:", error);
+            return [];
+        }
+    }
     function createWeekDaysHeader() {
         weekDaysContainer.innerHTML = "";
         weekDays.forEach(day => {
@@ -29,11 +31,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Função para gerar o calendário
-    function generateCalendar(year, month) {
+    async function generateCalendar(year, month) {
         calendar.innerHTML = "";  // Limpar o conteúdo do calendário
+        //calendar.classList.add("days");
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate(); // Quantos dias tem no mês
 
-        const firstDayOfMonth = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate(); // Quantos dias tem no mês
+        const holidays = await fetchHolidays(currentYear);
+
+        const monthHolidays = holidays.filter(h => {
+            const holidayDate = new Date(h.date + "T00:00:00");
+            return holidayDate.getMonth() === month;
+        });
 
         for (let i = 0; i < firstDayOfMonth; i++) {
             const emptyDay = document.createElement("div");
@@ -50,10 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const isWeekend = date.getDay() === 0 || date.getDay() === 6; // 0 = Domingo, 6 = Sábado
 
             // Verifica se o dia é um feriado
-            const holiday = holidays.find(h => {
-                const holidayDate = new Date(h.date);
-                return holidayDate.getFullYear() === year && holidayDate.getMonth() === month && holidayDate.getDate() === day;
-            });
+            const holiday = monthHolidays.find(h =>
+                new Date(h.date + "T00:00:00").getDate() === day
+            );
 
             // Verifica se há anotações para o dia
             const notes = JSON.parse(localStorage.getItem("notes")) || {};
@@ -88,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
             calendar.appendChild(dayElement);
         }
     }
-    
+
     createWeekDaysHeader();
     generateCalendar(currentYear, currentMonth);
 
@@ -96,20 +104,20 @@ document.addEventListener("DOMContentLoaded", function () {
     function toggleTheme() {
         document.body.classList.toggle("dark-theme");
         const isDark = document.body.classList.contains("dark-theme");
-        
+
         // Salvar tema no localStorage
         localStorage.setItem("theme", isDark ? "dark" : "light");
-    
+
         // Alterar ícone do botão
         themeToggle.textContent = isDark ? "☀️ Alternar Tema" : "🌙 Alternar Tema";
-    
+
         // Alterar cor do título "Agenda Mensal" para branco no modo escuro
         document.querySelector('h1').style.color = isDark ? 'white' : '#333';
-    
+
         // Regerar o calendário para aplicar as classes corretamente
         generateCalendar(currentYear, currentMonth);
     }
-    
+
     // Definir o tema ao carregar a página
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark-theme");
@@ -118,7 +126,8 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         themeToggle.textContent = "🌙 Alternar Tema";
     }
-    
+
     themeToggle.addEventListener("click", toggleTheme);
-    
+
+
 });    
